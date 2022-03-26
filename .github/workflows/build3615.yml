@@ -1,0 +1,23 @@
+name: Build RedPill DS3615 loader
+
+on: workflow_dispatch
+
+jobs:
+  redpill:
+    runs-on: ubuntu-latest
+    name: Build RedPill lkm and load
+    steps:
+      - uses: actions/checkout@v2.1.0
+        name: checkout src
+        id: checkout
+        with:
+          submodules: 'true'
+      - name: Build DS3615xs 7.0.1
+        id: build-ds3615xs-70
+        run: |
+            bash build-ds3615xs-7.0.1.sh
+      - name: Archive DS3615xs 7.0.1 loader image
+        uses: actions/upload-artifact@v2
+        with:
+          name: redpill-DS3615xs_7.0.1-loader
+          path: output/redpill-DS3615xs_7.0*.img
